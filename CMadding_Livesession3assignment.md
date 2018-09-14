@@ -15,8 +15,89 @@ output:
    git clone https://github.com/awesomedata/awesome-public-datasets.git
 
 ####2.	Data Summary (20 points): From this aforementioned cloned repo, please extract titanic.csv.zip.  To be clear, this  does not have to be done in Git or command line.
-   a. In R, please read in titanic.csv via either read.table() or read.csv(), assigning it to df.  This dataset follows the passengers aboard the Titanic, including their fees paid, rooms rented, and survivorship status.
-   b. Output the respective count of females and males aboard the Titanic. Plot the frequency of females and males.  Be sure to give an accurate title and label the axes.
+   a. In R, please read in titanic.csv via either read.table() or read.csv(), assigning it to df. This dataset follows the passengers aboard the Titanic, including their fees paid, rooms rented, and survivorship status.
+
+```r
+library(readr)
+library(ggplot2)
+library(plyr)
+library(tidyr)
+library(forcats)
+#read in titanic.csv
+titanic <- read_csv("awesome-public-datasets/Datasets/titanic.csv")
+```
+
+```
+## Parsed with column specification:
+## cols(
+##   PassengerId = col_integer(),
+##   Survived = col_integer(),
+##   Pclass = col_integer(),
+##   Name = col_character(),
+##   Sex = col_character(),
+##   Age = col_double(),
+##   SibSp = col_integer(),
+##   Parch = col_integer(),
+##   Ticket = col_character(),
+##   Fare = col_double(),
+##   Cabin = col_character(),
+##   Embarked = col_character()
+## )
+```
+
+```r
+#Print up a summery of the titanic data
+summary(titanic)
+```
+
+```
+##   PassengerId       Survived          Pclass          Name          
+##  Min.   :  1.0   Min.   :0.0000   Min.   :1.000   Length:891        
+##  1st Qu.:223.5   1st Qu.:0.0000   1st Qu.:2.000   Class :character  
+##  Median :446.0   Median :0.0000   Median :3.000   Mode  :character  
+##  Mean   :446.0   Mean   :0.3838   Mean   :2.309                     
+##  3rd Qu.:668.5   3rd Qu.:1.0000   3rd Qu.:3.000                     
+##  Max.   :891.0   Max.   :1.0000   Max.   :3.000                     
+##                                                                     
+##      Sex                 Age            SibSp           Parch       
+##  Length:891         Min.   : 0.42   Min.   :0.000   Min.   :0.0000  
+##  Class :character   1st Qu.:20.12   1st Qu.:0.000   1st Qu.:0.0000  
+##  Mode  :character   Median :28.00   Median :0.000   Median :0.0000  
+##                     Mean   :29.70   Mean   :0.523   Mean   :0.3816  
+##                     3rd Qu.:38.00   3rd Qu.:1.000   3rd Qu.:0.0000  
+##                     Max.   :80.00   Max.   :8.000   Max.   :6.0000  
+##                     NA's   :177                                     
+##     Ticket               Fare           Cabin             Embarked        
+##  Length:891         Min.   :  0.00   Length:891         Length:891        
+##  Class :character   1st Qu.:  7.91   Class :character   Class :character  
+##  Mode  :character   Median : 14.45   Mode  :character   Mode  :character  
+##                     Mean   : 32.20                                        
+##                     3rd Qu.: 31.00                                        
+##                     Max.   :512.33                                        
+## 
+```
+   
+   b. Output the respective count of females and males aboard the Titanic. Plot the frequency of females and males. Be sure to give an accurate title and label the axes.
+
+```r
+# Show counts by sex
+table(titanic$Sex)
+```
+
+```
+## 
+## female   male 
+##    314    577
+```
+
+```r
+# A chart showing the breakdown of female and males on the Titanic
+sex <- ggplot(titanic) + geom_bar(aes(x = titanic$Sex, fill = titanic$Sex))
+sex + labs(fill = "Sex")+ labs(x = "Sex")+ labs(title = "Females and Males on the Titanic")
+```
+
+![](CMadding_Livesession3assignment_files/figure-html/females and males-1.png)<!-- -->
+ 
    c. Please use one apply function (to review: swirl() modules 11, 12) to output the means of Age, Fare, and Survival. Make sure the output is a real number for all three means.
    
 ####3. Function Building (30 points): You research sleep and just got your first data set.  Later, you’ll have another dataset with the same column names, so you want to create a helper function that you can analyze this dataset and the next. Load sleep_data_01.csv (found at http://talklab.psy.gla.ac.uk/L1_labs/lab_1/homework/index.html). Questions 3A through 3D should be answered in function(x){}.  3E can be outside of the function. 
