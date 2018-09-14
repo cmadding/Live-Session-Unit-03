@@ -50,6 +50,10 @@ sex + labs(fill = "Sex")+ labs(x = "Sex")+ labs(title = "Females and Males on th
   
 ####4. FiveThirtyEight Data (30 points): Navigate on GitHub to https://github.com/rudeboybert/fivethirtyeight and read README.md. It will include everything you need. 
   a. Install the fivethirtyeight package.
+```{r fivethirtyeight, echo=TRUE}
+#install.packages("fivethirtyeight")
+```
+
   b. In the listing of Data sets in package ‘fivethirtyeight,’ assign the 22nd data set to an object ‘df.’
   c. Use a more detailed list of the data sets to write out the URL in a comment to the related news story.
   d. Using R command(s), give the dimensions and column names of this data frame.
