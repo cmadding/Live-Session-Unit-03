@@ -40,5 +40,6 @@ Questions
   d. In your RMarkdown script, please provide the link to this GitHub so the grader can see it.
 
 Reminder
+
 To complete this assignment, please submit one RMarkdown and matching HTML file that includes questions 1-6 at least one hour before your 4th live session.  Please submit all files at the same time; only one submission is granted. 
 Good luck!
