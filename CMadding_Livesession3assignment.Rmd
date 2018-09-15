@@ -34,7 +34,7 @@ summary(titanic)
 ```{r females and males, echo=TRUE}
 # Show counts by sex
 table(titanic$Sex)
-# A chart showing the breakdown of female and males on the Titanic
+# A chart showing the breakdown of females and males on the Titanic
 sex <- ggplot(titanic) + geom_bar(aes(x = titanic$Sex, fill = titanic$Sex))
 sex + labs(fill = "Sex")+ labs(x = "Sex")+ labs(title = "Females and Males on the Titanic")
 ```
