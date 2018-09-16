@@ -3,6 +3,9 @@ title: "Live Session 3 Assignment"
 author: "Chad Madding"
 date: "September 13, 2018"
 ---
+Data used in the assigmant came from fivethirtyeight and awesome-public-datasets.
+
+https://github.com/rudeboybert/fivethirtyeight
 
 Questions
 1.	 GitHub Cloning (20 points): Using Git, clone the following GitHub repository to your local machine: https://github.com/caesar0301/awesome-public-datasets.  In RMarkdown, please show the code (commented out, as it's not R syntax) that you used to create a new directory, navigate to the appropriate directory, and clone the repository to it.  One Git command per line, please.
