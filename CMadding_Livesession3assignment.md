@@ -11,7 +11,8 @@ output:
 
 ### Questions
 ####1.	 GitHub Cloning (20 points): Using Git, clone the following GitHub repository to your local machine: https://github.com/caesar0301/awesome-public-datasets.  In RMarkdown, please show the code (commented out, as it's not R syntax) that you used to create a new directory, navigate to the appropriate directory, and clone the repository to it.  One Git command per line, please.
-
+   mkdir awesome-public-datasets
+   cd awesome-public-datasets
    git clone https://github.com/awesomedata/awesome-public-datasets.git
 
 ####2.	Data Summary (20 points): From this aforementioned cloned repo, please extract titanic.csv.zip.  To be clear, this  does not have to be done in Git or command line.
@@ -90,20 +91,93 @@ table(titanic$Sex)
 ##    314    577
 ```
 
-```r
-# A scatterplot showing females and males on the Titanic
-#plot(titanic$Sex)
 
+```r
 # A chart showing the breakdown of females and males on the Titanic
 sex <- ggplot(titanic) + geom_bar(aes(x = titanic$Sex, fill = titanic$Sex))
 sex + labs(fill = "Sex")+ labs(x = "Sex")+ labs(title = "Females and Males on the Titanic")
 ```
 
-![](CMadding_Livesession3assignment_files/figure-html/females and males-1.png)<!-- -->
- 
+![](CMadding_Livesession3assignment_files/figure-html/females and males chart-1.png)<!-- -->
    c. Please use one apply function (to review: swirl() modules 11, 12) to output the means of Age, Fare, and Survival. Make sure the output is a real number for all three means.
-   
-####3. Function Building (30 points): You research sleep and just got your first data set.  Later, you’ll have another dataset with the same column names, so you want to create a helper function that you can analyze this dataset and the next. Load sleep_data_01.csv (found at http://talklab.psy.gla.ac.uk/L1_labs/lab_1/homework/index.html). Questions 3A through 3D should be answered in function(x){}.  3E can be outside of the function. 
+
+```r
+str(Titanic)
+```
+
+```
+##  'table' num [1:4, 1:2, 1:2, 1:2] 0 0 35 0 0 0 17 0 118 154 ...
+##  - attr(*, "dimnames")=List of 4
+##   ..$ Class   : chr [1:4] "1st" "2nd" "3rd" "Crew"
+##   ..$ Sex     : chr [1:2] "Male" "Female"
+##   ..$ Age     : chr [1:2] "Child" "Adult"
+##   ..$ Survived: chr [1:2] "No" "Yes"
+```
+
+```r
+apply(Titanic, c(3, 4), sum)
+```
+
+```
+##        Survived
+## Age       No Yes
+##   Child   52  57
+##   Adult 1438 654
+```
+
+```r
+summary(titanic$Age)
+```
+
+```
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+##    0.42   20.12   28.00   29.70   38.00   80.00     177
+```
+
+```r
+summary(titanic$Fare)
+```
+
+```
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##    0.00    7.91   14.45   32.20   31.00  512.33
+```
+
+```r
+summary(titanic$Survived)
+```
+
+```
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##  0.0000  0.0000  0.0000  0.3838  1.0000  1.0000
+```
+####3. Function Building (30 points): You research sleep and just got your first data set. Later, you’ll have another dataset with the same column names, so you want to create a helper function that you can analyze this dataset and the next. Load sleep_data_01.csv (found at http://talklab.psy.gla.ac.uk/L1_labs/lab_1/homework/index.html). Questions 3A through 3D should be answered in function(x){}. 3E can be outside of the function.
+
+```r
+sleep_data_01 <- read_csv("sleep_data_01.csv")
+```
+
+```
+## Parsed with column specification:
+## cols(
+##   SubjID = col_integer(),
+##   Age = col_integer(),
+##   Gender = col_integer(),
+##   PSQI = col_integer(),
+##   PSAScog = col_integer(),
+##   FOMO = col_integer(),
+##   SMUISa = col_integer(),
+##   SM1 = col_integer(),
+##   SM2 = col_integer(),
+##   HADSa = col_integer(),
+##   HADSd = col_integer(),
+##   RSES = col_integer(),
+##   Bedtime = col_double(),
+##   Latency = col_integer(),
+##   Duration = col_double()
+## )
+```
+
   a. Create objects for the median Age, the minimum and maximum Duration of sleep, and the mean and standard deviation of the Rosenberg Self Esteem scale (RSES).  You may need to specify a few options like in Problem 2 and live session.
   b. Create a data.frame object called report: it should consist of the median age, the RSES mean and standard deviation respectively divided by five (since there are five questions and these scores are summed), and the range of Duration (the statistical definition of range; it should be a single number.)
   c. Change the column names of this data.frame to MedianAge, SelfEsteem, SE_SD, and DurationRange.
@@ -115,22 +189,133 @@ sex + labs(fill = "Sex")+ labs(x = "Sex")+ labs(title = "Females and Males on th
 
 ```r
 #install.packages("fivethirtyeight")
+library("fivethirtyeight")
+# To see a list of all data sets:
+data(package = "fivethirtyeight")
 ```
 
   b. In the listing of Data sets in package ‘fivethirtyeight,’ assign the 22nd data set to an object ‘df.’
+
+```r
+vignette("fivethirtyeight", package = "fivethirtyeight")
+```
+
+```
+## starting httpd help server ... done
+```
+
+```r
+#Assigns the 22nd data set, college_recent_grads to a data frame called colgrads
+colgrads <- data.frame(college_recent_grads)
+```
   c. Use a more detailed list of the data sets to write out the URL in a comment to the related news story.
+
+  https://fivethirtyeight.com/features/the-economic-guide-to-picking-a-college-major/
+
   d. Using R command(s), give the dimensions and column names of this data frame.
-  
+
+```r
+dim(colgrads)
+```
+
+```
+## [1] 173  21
+```
+
+```r
+colnames(colgrads, do.NULL = TRUE, prefix = "col")
+```
+
+```
+##  [1] "rank"                        "major_code"                 
+##  [3] "major"                       "major_category"             
+##  [5] "total"                       "sample_size"                
+##  [7] "men"                         "women"                      
+##  [9] "sharewomen"                  "employed"                   
+## [11] "employed_fulltime"           "employed_parttime"          
+## [13] "employed_fulltime_yearround" "unemployed"                 
+## [15] "unemployment_rate"           "p25th"                      
+## [17] "median"                      "p75th"                      
+## [19] "college_jobs"                "non_college_jobs"           
+## [21] "low_wage_jobs"
+```
 ####5. Data Summary (30 points): Use your newly assigned data frame from question 4 for this question. 
-  a. Write an R command that gives you the column names of the data frame.  Right after that, write one that counts the number of columns but not rows.  Hint: The number should match one of your numbers in Question 1d for dimensions.
-  b. Generate a count of each unique major_category in the data frame.  I recommend using libraries to help.  To be clear, this should look like a matrix or data frame containing the major_category and the frequency it occurs in the dataset. Assign it to major_count.
+  a. Write an R command that gives you the column names of the data frame.
+
+```r
+#An R command that gives you the column names of the data frame colgrads
+colnames(colgrads, do.NULL = TRUE, prefix = "col")
+```
+
+```
+##  [1] "rank"                        "major_code"                 
+##  [3] "major"                       "major_category"             
+##  [5] "total"                       "sample_size"                
+##  [7] "men"                         "women"                      
+##  [9] "sharewomen"                  "employed"                   
+## [11] "employed_fulltime"           "employed_parttime"          
+## [13] "employed_fulltime_yearround" "unemployed"                 
+## [15] "unemployment_rate"           "p25th"                      
+## [17] "median"                      "p75th"                      
+## [19] "college_jobs"                "non_college_jobs"           
+## [21] "low_wage_jobs"
+```
+  Right after that, write one that counts the number of columns but not rows. Hint: The number should match one of your numbers in Question 1d for dimensions.
+
+```r
+#count the number of columns in colgrads
+ncol(colgrads)
+```
+
+```
+## [1] 21
+```
+  b. Generate a count of each unique major_category in the data frame. I recommend using libraries to help.  To be clear, this should look like a matrix or data frame containing the major_category and the frequency it occurs in the dataset. Assign it to major_count.
+
+```r
+#Generate a count of each unique major_category in the data frame
+major_count <- with(colgrads, tapply(major, major_category, FUN = function(x) length(unique(x))))
+major_count
+```
+
+```
+##     Agriculture & Natural Resources                                Arts 
+##                                  10                                   8 
+##              Biology & Life Science                            Business 
+##                                  14                                  13 
+##         Communications & Journalism             Computers & Mathematics 
+##                                   4                                  11 
+##                           Education                         Engineering 
+##                                  16                                  29 
+##                              Health           Humanities & Liberal Arts 
+##                                  12                                  15 
+## Industrial Arts & Consumer Services                   Interdisciplinary 
+##                                   7                                   1 
+##                 Law & Public Policy                   Physical Sciences 
+##                                   5                                  10 
+##            Psychology & Social Work                      Social Science 
+##                                   9                                   9
+```
   c. To make things easier to read, put par(las=2) before your plot to make the text perpendicular to the axis. Make a barplot of major_count. Make sure to label the title with something informative (check the vignette if you need), label the x and y axis, and make it any color other than grey.  Assign the major_category labels to their respective bar. Flip the barplot horizontally so that bars extend to the right, not upward. All of these options can be done in a single pass of barplot(). Note: It’s okay if it’s wider than the preview pane.
-  d. Write the fivethirtyeight data to a csv file.  Make sure that it does not have row labels.
+
+```r
+par(las=2)
+barplot(major_count, main="A Breakdown Of Each Major")
+```
+
+![](CMadding_Livesession3assignment_files/figure-html/major count barplot-1.png)<!-- -->
   
+  d. Write the fivethirtyeight data to a csv file.  Make sure that it does not have row labels.
 ####6. Codebook (30 points): 
-  a. Start a new repository on GitHub for your SMU MSDS homework.  On your local device, make sure there is a directory for Homework at the minimum; you are welcome to add whatever you would like to this repo in addition to your requirements here.
-  b. Create a README.md file which explains the purpose of the repository, the topics included, the sources for the material you post, and contact information in case of questions. Remember, the one in the root directory should be general.  You are welcome to make short READMEs for each assignment individually in other folders.
-  c. In one (or more) of the nested directories, post your RMarkdown script, HTML file, and data from ‘fivethirtyeight.’  Make sure that in your README or elsewhere that you credit fivethirtyeight in some way.
+  a. Start a new repository on GitHub for your SMU MSDS homework. On your local device, make sure there is a directory for Homework at the minimum; you are welcome to add whatever you would like to this repo in addition to your requirements here.
+  
+   *The repository maybe found here: https://github.com/cmadding/SMU_MSDS_homework.git*
+   
+  b. Create a README.md file which explains the purpose of the repository, the topics included, the sources for the material you post, and contact information in case of questions. Remember, the one in the root directory should be general. You are welcome to make short READMEs for each assignment individually in other folders.
+  
+   *https://github.com/cmadding/SMU_MSDS_homework/blob/master/README.md*
+   
+  c. In one (or more) of the nested directories, post your RMarkdown script, HTML file, and data from ‘fivethirtyeight.’ Make sure that in your README or elsewhere that you credit fivethirtyeight in some way.
   d. In your RMarkdown script, please provide the link to this GitHub so the grader can see it.
 
 ####Reminder
