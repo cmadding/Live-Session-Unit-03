@@ -1,7 +1,7 @@
 ---
 title: "Live Session 3 Assignment"
 author: "Chad Madding"
-date: "September 13, 2018"
+date: "September 16, 2018"
 output:
   html_document:
     keep_md: true
@@ -11,9 +11,10 @@ output:
 
 ### Questions
 ####1.	 GitHub Cloning (20 points): Using Git, clone the following GitHub repository to your local machine: https://github.com/caesar0301/awesome-public-datasets.  In RMarkdown, please show the code (commented out, as it's not R syntax) that you used to create a new directory, navigate to the appropriate directory, and clone the repository to it.  One Git command per line, please.
-   mkdir awesome-public-datasets
-   cd awesome-public-datasets
-   git clone https://github.com/awesomedata/awesome-public-datasets.git
+
+   1. mkdir awesome-public-datasets
+   2. cd awesome-public-datasets
+   3. git clone https://github.com/awesomedata/awesome-public-datasets.git
 
 ####2.	Data Summary (20 points): From this aforementioned cloned repo, please extract titanic.csv.zip.  To be clear, this  does not have to be done in Git or command line.
    a. In R, please read in titanic.csv via either read.table() or read.csv(), assigning it to df. This dataset follows the passengers aboard the Titanic, including their fees paid, rooms rented, and survivorship status.
@@ -99,22 +100,12 @@ sex + labs(fill = "Sex")+ labs(x = "Sex")+ labs(title = "Females and Males on th
 ```
 
 ![](CMadding_Livesession3assignment_files/figure-html/females and males chart-1.png)<!-- -->
+   
    c. Please use one apply function (to review: swirl() modules 11, 12) to output the means of Age, Fare, and Survival. Make sure the output is a real number for all three means.
 
 ```r
-str(Titanic)
-```
-
-```
-##  'table' num [1:4, 1:2, 1:2, 1:2] 0 0 35 0 0 0 17 0 118 154 ...
-##  - attr(*, "dimnames")=List of 4
-##   ..$ Class   : chr [1:4] "1st" "2nd" "3rd" "Crew"
-##   ..$ Sex     : chr [1:2] "Male" "Female"
-##   ..$ Age     : chr [1:2] "Child" "Adult"
-##   ..$ Survived: chr [1:2] "No" "Yes"
-```
-
-```r
+#str(Titanic)
+#one apply function
 apply(Titanic, c(3, 4), sum)
 ```
 
@@ -126,6 +117,7 @@ apply(Titanic, c(3, 4), sum)
 ```
 
 ```r
+#means of Age, Fare, and Survival
 summary(titanic$Age)
 ```
 
@@ -178,11 +170,58 @@ sleep_data_01 <- read_csv("sleep_data_01.csv")
 ## )
 ```
 
-  a. Create objects for the median Age, the minimum and maximum Duration of sleep, and the mean and standard deviation of the Rosenberg Self Esteem scale (RSES).  You may need to specify a few options like in Problem 2 and live session.
+  a. Create objects for the median Age, the minimum and maximum Duration of sleep, and the mean and standard deviation of the Rosenberg Self Esteem scale (RSES). You may need to specify a few options like in Problem 2 and live session.
+
+```r
+#Create objects for the median Age, the minimum and maximum Duration of sleep, and the mean and standard deviation of the Rosenberg Self Esteem scale (RSES).
+medAge <- median(sleep_data_01$Age, na.rm = TRUE)
+minSleep <- min(sleep_data_01$Duration, na.rm = TRUE)
+maxSleep <- max(sleep_data_01$Duration, na.rm = TRUE)
+meaRSES <- mean(sleep_data_01$RSES, na.rm = TRUE)
+sdRSES <- sd(sleep_data_01$RSES, na.rm = TRUE)
+```
+  
   b. Create a data.frame object called report: it should consist of the median age, the RSES mean and standard deviation respectively divided by five (since there are five questions and these scores are summed), and the range of Duration (the statistical definition of range; it should be a single number.)
+
+```r
+#standard deviation respectively divided by five
+sdRSESdiv <- (sdRSES/5)
+#range of Duration
+rangeSleep <- (maxSleep-minSleep)
+#Create a data.frame object called report
+report <- data.frame(medAge, meaRSES, sdRSESdiv, rangeSleep)
+```
+  
   c. Change the column names of this data.frame to MedianAge, SelfEsteem, SE_SD, and DurationRange.
+
+```r
+colnames(report) <- c("MedianAge", "SelfEsteem", "SE_SD", "DurationRange")
+```
+  
   d. Round the report to at most 2 digits: leave this as the closing line to the function.
+
+```r
+#Round the report to at most 2 digits
+round(report)
+```
+
+```
+##   MedianAge SelfEsteem SE_SD DurationRange
+## 1        14         18     1             7
+```
+  
   e. Finally, run the function on your sleep data to show the output.
+
+```r
+#show the output
+report
+```
+
+```
+##   MedianAge SelfEsteem    SE_SD DurationRange
+## 1        14   18.11494 1.235304             7
+```
+  
   
 ####4. FiveThirtyEight Data (30 points): Navigate on GitHub to https://github.com/rudeboybert/fivethirtyeight and read README.md. It will include everything you need. 
   a. Install the fivethirtyeight package.
@@ -191,20 +230,13 @@ sleep_data_01 <- read_csv("sleep_data_01.csv")
 #install.packages("fivethirtyeight")
 library("fivethirtyeight")
 # To see a list of all data sets:
-data(package = "fivethirtyeight")
+#data(package = "fivethirtyeight")
 ```
 
   b. In the listing of Data sets in package ‘fivethirtyeight,’ assign the 22nd data set to an object ‘df.’
 
 ```r
-vignette("fivethirtyeight", package = "fivethirtyeight")
-```
-
-```
-## starting httpd help server ... done
-```
-
-```r
+#vignette("fivethirtyeight", package = "fivethirtyeight")
 #Assigns the 22nd data set, college_recent_grads to a data frame called colgrads
 colgrads <- data.frame(college_recent_grads)
 ```
@@ -215,6 +247,7 @@ colgrads <- data.frame(college_recent_grads)
   d. Using R command(s), give the dimensions and column names of this data frame.
 
 ```r
+#Print out the size of the data set
 dim(colgrads)
 ```
 
@@ -223,6 +256,7 @@ dim(colgrads)
 ```
 
 ```r
+#Shows the column names
 colnames(colgrads, do.NULL = TRUE, prefix = "col")
 ```
 
@@ -299,24 +333,37 @@ major_count
   c. To make things easier to read, put par(las=2) before your plot to make the text perpendicular to the axis. Make a barplot of major_count. Make sure to label the title with something informative (check the vignette if you need), label the x and y axis, and make it any color other than grey.  Assign the major_category labels to their respective bar. Flip the barplot horizontally so that bars extend to the right, not upward. All of these options can be done in a single pass of barplot(). Note: It’s okay if it’s wider than the preview pane.
 
 ```r
-par(las=2)
-barplot(major_count, main="A Breakdown Of Each Major")
+#rotates text
+par(las=1)
+#a barplot of major_count
+barplot(major_count, horiz=TRUE, col=c("darkblue"), main="A Breakdown Of Each Major")
 ```
 
 ![](CMadding_Livesession3assignment_files/figure-html/major count barplot-1.png)<!-- -->
   
   d. Write the fivethirtyeight data to a csv file.  Make sure that it does not have row labels.
-####6. Codebook (30 points): 
+
+```r
+#Write the fivethirtyeight data to a csv file
+write.csv(college_recent_grads,'college_recent_grads.csv', row.names=FALSE)
+```
+  
+####6. Codebook (30 points):
   a. Start a new repository on GitHub for your SMU MSDS homework. On your local device, make sure there is a directory for Homework at the minimum; you are welcome to add whatever you would like to this repo in addition to your requirements here.
   
-   *The repository maybe found here: https://github.com/cmadding/SMU_MSDS_homework.git*
+   The repository maybe found here: https://github.com/cmadding/SMU_MSDS_homework.git
    
   b. Create a README.md file which explains the purpose of the repository, the topics included, the sources for the material you post, and contact information in case of questions. Remember, the one in the root directory should be general. You are welcome to make short READMEs for each assignment individually in other folders.
   
-   *https://github.com/cmadding/SMU_MSDS_homework/blob/master/README.md*
+   https://github.com/cmadding/SMU_MSDS_homework/blob/master/README.md
    
-  c. In one (or more) of the nested directories, post your RMarkdown script, HTML file, and data from ‘fivethirtyeight.’ Make sure that in your README or elsewhere that you credit fivethirtyeight in some way.
+  c. In one (or more) of the nested directories, post your RMarkdown script, HTML file, and data from fivethirtyeight. Make sure that in your README or elsewhere that you credit fivethirtyeight in some way.
+  
+   The README.md maybe found here: https://github.com/cmadding/Live-Session-Unit-03/blob/master/README.md
+  
   d. In your RMarkdown script, please provide the link to this GitHub so the grader can see it.
+  
+   All information from this weeks homework maybe found here: https://github.com/cmadding/Live-Session-Unit-03
 
 ####Reminder
 To complete this assignment, please submit one RMarkdown and matching HTML file that includes questions 1-6 at least one hour before your 4th live session.  Please submit all files at the same time; only one submission is granted. 
